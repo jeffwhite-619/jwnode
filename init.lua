@@ -9,11 +9,9 @@ function startup()
         print("Running")
         file.close("init.lua")
         --file.remove("init.lua")
-        --dofile("application.lua")
+        dofile("wifi_servers.lua")
     end
 end
-
-dofile("wifi_servers.lua")
 
 tmr.alarm(1,1000,1,function()
     if nil == wifi.sta.getip() then
