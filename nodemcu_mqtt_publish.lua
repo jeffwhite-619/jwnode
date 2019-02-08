@@ -15,16 +15,15 @@ sensor_topic = "sensors"
 
 sensor_data = {
     ["temperature"] = temperature,
-    ["pressure"] = pressure
+    ["pressure"] = pressure,
+    nil
 }
 
 sensor_topics = {
     ["temperature"] = sensor_topic,
-    ["pressure"] = "decibels"
+    ["pressure"] = "decibels",
+    nil
 }
-
-current_published_sensor = ""
-current_published_value = nil
 
 -- client id, keepalive, user, pwd, cleansession default = 1
 m = mqtt.Client(CLIENTID, 120, BRUSER, BRPWD)
@@ -42,40 +41,31 @@ function handle_mqtt_conn_error(conn, reason)
     publish_end()
 end
 
-function publish(sensor_type, topic)
+function publish(sensor_type, topic, qos)
     sensor_topic = topic or sensor_topic
-    m:publish("/"..sensor_topic.."/"..CLIENTID.."/"..sensor_type,sensor_data[sensor_type],2,0,update_last_published)
+    local sensor = (sensor_topic:gsub("^%l", string.upper))
+    published = m:publish("/"..sensor_topic.."/"..CLIENTID.."/"..sensor_type,sensor_data[sensor_type],qos,0,published)
+    print(sensor.." data published: "..sensor_type.." : "..sensor_data[sensor_type])
 end
 
 function publish_data()
-    for k,v in pairs(sensor_data) do
-        current_published_sensor = k
-        current_published_value = v
-        publish(k, sensor_topics[k])
+    local k,v = next(sensor_data,nil)
+    while k do
+        publish(k, sensor_topics[k], 2)
         tmr.delay(10000)
+        k,v = next(sensor_data,k)
     end
 end
 
-function update_last_published(conn)
-    local sensor = (sensor_topic:gsub("^%l", string.upper))
-    -- FIXME: bug where last_published_* is repeating twice, value is changing and only the last last value is set
-    print(sensor.." data published: "..current_published_sensor.." : "..current_published_value)
-    if next(sensor_data,_) == nil then
-        -- defer this action until all the othes have completed
-        print("last publish")
-        publish_end()
-    else
-        print("still more to publish")
-    end
-    last_published_sensor = current_published_sensor
-    last_published_value = current_published_value
+function published(conn)
+    print("Published!")
 end
 
 function publish_end()
     dofile("disconnect_mqtt.lua")
 end
 
-m:lwt("/"..sensor_topic.."/errors", "I died. This is my last will and testament and I give nothing to no one, the world owes me! Ha!", 2)
+m:lwt("/"..sensor_topic.."/errors", "I died.", 2)
 
 -- broker addr, broker port, secure, (do not use autoreconnect option!), connection callback, connection error callback
 m:connect(BROKER, BRPORT, mqtt_connect, handle_mqtt_conn_error)
@@ -83,9 +73,3 @@ m:connect(BROKER, BRPORT, mqtt_connect, handle_mqtt_conn_error)
 -- these lines will override the callbacks passed to connect()
 --m:on("connect", function(conn) print("Broker connected: "..BROKER) end)
 --m:on("offline", function(conn) print("Broker disconnected: "..BROKER) end)
-
-
-
-
-
-
