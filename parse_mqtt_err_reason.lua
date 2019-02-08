@@ -42,10 +42,3 @@ function parse_err(rc)
     }
     return reason_code
 end
-
-
-
-
-
-
-

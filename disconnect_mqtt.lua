@@ -6,5 +6,5 @@ closed = m:close()
 if closed then
     print("MQTT client closed")
 else
-    print("MQTT client was not open")
+    print("MQTT client is not open")
 end
