@@ -8,6 +8,7 @@ function startup()
     else
         print("Running")
         file.close("init.lua")
+        --dofile("nodemcu_ble_led.lua")
         --dofile("nodemcu_mqtt_publish.lua")
         --dofile("wifi_servers.lua")
         --file.remove("init.lua")
