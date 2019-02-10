@@ -34,6 +34,7 @@ To get started you will need to do or acquire the following:
     - Also be sure to choose TSL/SSL, but no debug. Debug will take up a large amount of resources on the chip.
     - Branch should be the master branch. 
     - Enter an email to receive the build and then wait for your custom build to be built. 
+    - More instructions: https://diyprojects.io/nodemcu-build-firmware-nodemcu-esp8266-custom-frightanic/
      
 
 There are a number of other tools I could have used, but didn't. They are:
