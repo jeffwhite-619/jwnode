@@ -5,7 +5,8 @@ Exploring NodeMCU (ESP8266, ESP-12E), Lua, and HC-05 Bluetooth transceiver modul
 
 I did most of the work on Linux Ubuntu 18.04. The flash program is designed for Windows and did not work correctly with WINE.
 
-To get started you will need to do the following:
+### Getting Started
+You will need to do the following:
 
 1.  Acquire a NodeMCU V1.0, preferably the Amica variety. Other manufacturers have a different pin layout, so you'll need to
     figure out what that is if you choose a different OEM. Amica is "officially supported" by the way. No matter what the
