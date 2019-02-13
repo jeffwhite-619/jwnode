@@ -83,7 +83,7 @@ BRPWD is the Password
 
 ### Step 4: Open communication to NodeMCU
 
-On the right-hand side of esplorer, at the top, you should see a dropdown of serial connections. If none of those have USB in the name, hit the button with the recycle symbol on it (the hover text says "Scan system for available serial port") and it should appear. Next, pay close attention to the two buttons labelled DTR and RTS. DTR means Data Terminal Ready and RTS means Request to Send. You want these both off while the connection is closed; starting with them on causes weird hiccups and they'll need to be turned off and on again. For me, the sequence seemed to matter a bit: RTS first, then DTR. In fact, I often turn both off and on in that order while connected, to reboot the chip.
+On the right-hand side of esplorer, at the top, you should see a dropdown of serial connections. If none of those have USB in the name (on Windows it will be COM3), hit the button with the recycle symbol on it (the hover text says "Scan system for available serial port") and it should appear. Next, pay close attention to the two buttons labelled DTR and RTS. DTR means Data Terminal Ready and RTS means Request to Send. You want these both off while the connection is closed; starting with them on causes weird hiccups and they'll need to be turned off and on again. For me, the sequence seemed to matter a bit: RTS first, then DTR. In fact, I often turn both off and on in that order while connected, to reboot the chip.
 
 Hit the Open button.
 
