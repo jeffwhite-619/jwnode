@@ -5,7 +5,7 @@ Exploring NodeMCU (ESP8266, ESP-12E), Lua, and HC-05 Bluetooth transceiver modul
 
 I did most of the work on Linux Ubuntu 18.04. The flash program is designed for Windows and did not work correctly with WINE.
 
-To get started you will need to do or acquire the following:
+To get started you will need to do the following:
 
 1.  Acquire a NodeMCU V1.0, preferably the Amica variety. Other manufacturers have a different pin layout, so you'll need to
     figure out what that is if you choose a different OEM. Amica is "officially supported" by the way. No matter what the
@@ -17,12 +17,12 @@ To get started you will need to do or acquire the following:
 5.  Download and install esplorer https://github.com/4refr0nt/ESPlorer
 6.  Know your docs. For help you'll want to look in the following places:
     - For NodeMCU, go to https://nodemcu.readthedocs.io/en/latest/
-    - For Lua, http://lua-users.org/ has been the most helpful to me
+    - For Lua, http://lua-users.org/ has been the most helpful to me, but official docs are at http://www.lua.org/docs.html.
     - CloudMQTT has an API with docs at https://docs.cloudmqtt.com/
     - For specifically joining NodeMCU and HC-05 I went here (in fact this project is largely based on this link)
      https://www.electronicwings.com/nodemcu/hc-05-bluetooth-module-interfacing-with-nodemcu
     - Learn to read schematics here https://learn.sparkfun.com/tutorials/how-to-read-a-schematic/all
-7.  A 5V power source that you can wire up to the HC-05. For me the easiest thing was an Arduino Uno board.
+7.  Acquire a 5V power source that you can wire up to the HC-05. For me the easiest thing was an Arduino Uno board.
 8.  You'll also need some basic prototyping tools, like wires, a 330 ohm resistor, an LED, and a breadboard.
 9.  Download and install BT Terminal on your smartphone. I use an Android phone. As you might guess, the BT in BT Terminal
     stands for BlueTooth.
