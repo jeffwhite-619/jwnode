@@ -35,6 +35,7 @@ To get started you will need to do the following:
     - Branch should be the master branch. 
     - Enter an email to receive the build and then wait for your custom build to be built. 
     - More instructions: https://diyprojects.io/nodemcu-build-firmware-nodemcu-esp8266-custom-frightanic/
+    - As a last resort, if you have trouble with your build you can use the one provided in the project.
      
 
 There are a number of other tools I could have used, but didn't. They are:
