@@ -125,7 +125,9 @@ The resource for reading schematics is above in the Getting Started section. If 
 		- j29 to -22 (NodeMCU ground to ground)
 
 	- 5V power
-		I use an Arduino Uno board, because it has power outputs that are simple to wire. A regular 5V power supply with a single cord and barrel-tip connector won't help, unless you're powering an Arduino (or similar) board.
+	
+	I use an Arduino Uno board, because it has power outputs that are simple to wire. A regular 5V power supply with a single cord and barrel-tip connector won't help, unless you're powering an Arduino (or similar) board.
+		
 		- Arduino 5V to breadboard +1
 		- Arduino GND to breadboard -1
 
@@ -135,10 +137,10 @@ Open the nodemcu_mqtt_publish.lua file in esplorer. In the publish function you 
 
 Go back to your CloudMQTT account and visit the Users & ACL tab. There are 2 categories of ACL rules, Pattern and Topic. Both define the topic that you can publish/subscribe to. The difference is simply that Topic restricts access to the topic to a specific user. For example, for the same topic pattern, you may want User A to have read/write, while User B only has read. We don't care about that now, so Pattern is fine. The patterns I defined in my account are reflected in the nodemcu_mqtt_publish.lua publish function, so if you make your own patterns, you'll need to update your publish function to match it. These patterns are:
 
-pattern	/sensors/ESP8266-1093336/temperature	true/true	
-pattern	/sensors/ESP8266-1093336/pressure	true/true	
-pattern	/decibels/ESP8266-1093336/pressure	true/true	
-pattern	/sensors/ESP8266-1093336/errors	true/true
+- pattern	/sensors/ESP8266-1093336/temperature	true/true	
+- pattern	/sensors/ESP8266-1093336/pressure	true/true	
+- pattern	/decibels/ESP8266-1093336/pressure	true/true	
+- pattern	/sensors/ESP8266-1093336/errors	true/true
 
 
 Now go to the Websocket UI tab. Send yourself a message to one of the topics to verify things are working ok with the vendor.
