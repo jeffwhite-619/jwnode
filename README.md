@@ -105,8 +105,10 @@ After these are on the NodeMCU, close the connection, turn DTR and RTS off, and 
 
 The breadboard I describe below is a shorter type with 30 holes per column. Your breadboard should have side rails with +/- for positive and negative (ground). If not, you'll need to find one. These rails don't line up exactly with the grid between the rails, so the coordinates I give below for any hole in positive or negative will be numbered according to their actual number in sequence going down the board. Also, despite that I will specify holes on the positive/negative rail, you can place wires in any hole on that rail and it will be fine. Similarly, the specific placement of the hardware on the board is solely for you to reproduce what I've done with minimal error.
 
-This is where the ability to read a schematic comes in handy. I will try to provide a wiring diagram in the future, but all I had to work with was this schematic:![alt-text](https://www.electronicwings.com/public/images/user_images/images/NodeMCU/NodeMCU%20Interfaces/NodeMCU%20Bluetooth/Bluetooth%20Interfacing%20with%20NoeMCU.png) 
-The resource for reading schematics is above in the Getting Started section. If you want explicit instructions, then in lieu of a nifty wiring diagram here's how my breadboard is wired:
+This is where the ability to read a schematic comes in handy. All I had to work with was this schematic:![alt-text](https://www.electronicwings.com/public/images/user_images/images/NodeMCU/NodeMCU%20Interfaces/NodeMCU%20Bluetooth/Bluetooth%20Interfacing%20with%20NoeMCU.png) 
+The resource for reading schematics is above in the Getting Started section. I created a wiring diagram of my setup to help you get everything connected properly:![alt text](https://raw.githubusercontent.com/jeffwhite-619/jwnode/master/jwnode_bb.png)
+
+If you want explicit instructions, here's how my breadboard is wired:
 
 - Place the LED on the board at holes f11 and f12, with the negative (shorter) pin in f11. 
 - Place a 330 ohm resistor with each end in g11 and g10.
