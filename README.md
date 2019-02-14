@@ -69,16 +69,16 @@ Your computer should be on a wifi network (as opposed to wired, which I often do
 
 The IPADR will be a static IP that you request for the NodeMCU module. On Linux, type ifconfig | grep "inet 192.168.". You may see a few IPs starting with 192.168, and these are IPs you should **not** set as the value for IPADR. For me, 192.168.1.5 is usually always available (i.e., not shown in the list and not assigned to anything else the router is connected to).
 
-IPROUTER should be 192.168.0.1 unless you've manually changed it, in which case you probably have a better idea what's going on here than I do.
+IPROUTER should be 192.168.0.1 unless you've manually changed it on your router, in which case you probably have a better idea what's going on here than I do.
 
 NODEIPADR and NODEIPROUTER can be skipped for now; I haven't yet implemented the private access point.
 
 Log into your CloudMQTT account, go into your free tier server, and go to the Details tab. In the credentials file:
 
-BROKER is the Server address
-BRUSER is the User name
-BRPORT, SSLPORT and SOCKPORT are the Port, SSL Port and Websockets Port, respectively
-BRPWD is the Password
+- BROKER is the Server address
+- BRUSER is the User name
+- BRPORT, SSLPORT and SOCKPORT are the Port, SSL Port and Websockets Port, respectively
+- BRPWD is the Password
 
 
 ### Step 4: Open communication to NodeMCU
