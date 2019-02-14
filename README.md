@@ -124,9 +124,7 @@ The resource for reading schematics is above in the Getting Started section. If 
 		- g12 to j18 (LED positive pin to NodeMCU D2 pin)
 		- j29 to -22 (NodeMCU ground to ground)
 
-	- 5V power
-	
-	I use an Arduino Uno board, because it has power outputs that are simple to wire. A regular 5V power supply with a single cord and barrel-tip connector won't help, unless you're powering an Arduino (or similar) board.
+	- 5V power -- I use an Arduino Uno board, because it has power outputs that are simple to wire. A regular 5V power supply with a single cord and barrel-tip connector won't help, unless you're powering an Arduino (or similar) board.
 		
 		- Arduino 5V to breadboard +1
 		- Arduino GND to breadboard -1
