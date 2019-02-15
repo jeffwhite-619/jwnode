@@ -51,7 +51,7 @@ I also recommend getting more than one NodeMCU and HC-05 module, as the likeliho
 
 ### Step 1: Flash your build onto the NodeMCU
 
-You will need a wire for this, a short one will do. I tried running the flasher on WINE but I'm not confident I had the wire on the correct pin at the time. Since then I've run this on a Windows machine (Win 8) and it never fails. On an Amica board, wire the D4 pin to ground when flashing. Beyond that, follow the instructions [here](https://github.com/nodemcu/nodemcu-flasher). I did not use the [NodeMCU dev kit](https://github.com/nodemcu/nodemcu-devkit-v1.0) but it might help you.
+You will need a wire for this, a short one will do. I tried running the flasher on WINE but I'm not confident I had the wire on the correct pin at the time. Since then I've run this on a Windows machine (Win 8) and it never fails. On an Amica board, wire the D3 pin to ground when flashing. Beyond that, follow the instructions [here](https://github.com/nodemcu/nodemcu-flasher). I did not use the [NodeMCU dev kit](https://github.com/nodemcu/nodemcu-devkit-v1.0) but it might help you.
 From here on, I'm using a Linux Ubuntu desktop OS.
 
 ### Step 2: Connect the NodeMCU to your computer
