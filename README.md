@@ -1,7 +1,7 @@
 # jwnode
-NodeMCU, Lua, HC-05 Bluetooth LE
+NodeMCU, Lua, HC-05 Bluetooth LE, DHT-11 Humidity and Temperature sensor
 
-Exploring NodeMCU (ESP8266, ESP-12E), Lua, and HC-05 Bluetooth transceiver module
+Exploring NodeMCU (ESP8266, ESP-12E), Lua, HC-05 Bluetooth transceiver module, and DHT-11 Humidity and Temperature sensor
 
 I did most of the work on Linux Ubuntu 18.04. The flash program is designed for Windows and did not work correctly with WINE.
 
@@ -12,21 +12,22 @@ You will need to do the following:
     figure out what that is if you choose a different OEM. Amica is "officially supported" by the way. No matter what the
     OEM, the boards are typically around $5-10 USD.
 2.  Acquire an HC-05 Bluetooth module. These are typically around $4 USD.
-3.  Setup a free account at [CloudMQTT](https://www.cloudmqtt.com/). The free tier is called Cute Cat.
-4.  Download and install the NodeMCU Firmware Flasher. The github project is called nodemcu-flasher and you can get it [here](https://github.com/nodemcu/nodemcu-flasher). It's designed for Windows and so I used it on Windows. I can't really testify whether it works well on Linux, as I was not setting the jumper correctly at the time. More on that later...
-5.  Download and install [esplorer](https://github.com/4refr0nt/ESPlorer)
-6.  Know your docs. For help you'll want to look in the following places:
+3.  Acquire a DHT-11 Humidity and Temperature sensor, around $3-7 USD. Mine is made by Osepp, with 3 pins instead of 4 (no NULL pin).
+4.  Setup a free account at [CloudMQTT](https://www.cloudmqtt.com/). The free tier is called Cute Cat.
+5.  Download and install the NodeMCU Firmware Flasher. The github project is called nodemcu-flasher and you can get it [here](https://github.com/nodemcu/nodemcu-flasher). It's designed for Windows and so I used it on Windows. I can't really testify whether it works well on Linux, as I was not setting the jumper correctly at the time. More on that later...
+6.  Download and install [esplorer](https://github.com/4refr0nt/ESPlorer)
+7.  Know your docs. For help you'll want to look in the following places:
     - For NodeMCU, go to [the official docs](https://nodemcu.readthedocs.io/en/latest/)
     - For Lua, [lua-users.org](http://lua-users.org/) has been the most helpful to me, but official docs are at [lua.org](http://www.lua.org/docs.html).
     - CloudMQTT has an API with [docs](https://docs.cloudmqtt.com/)
     - For specifically joining NodeMCU and HC-05 I went [here](https://www.electronicwings.com/nodemcu/hc-05-bluetooth-module-interfacing-with-nodemcu) (in fact this project is largely based on this link)
     - Learn to read schematics [here](https://learn.sparkfun.com/tutorials/how-to-read-a-schematic/all)
-7.  Acquire a 5V power source that you can wire up to the HC-05. For me the easiest thing was an Arduino Uno board.
-8.  You'll also need some basic prototyping tools, like wires, a 330 ohm resistor, an LED, and a breadboard.
-9.  Download and install BT Terminal on your smartphone. I use an Android phone. As you might guess, the BT in BT Terminal
+8.  Acquire a 5V power source that you can wire up to the HC-05. For me the easiest thing was an Arduino Uno board.
+9.  You'll also need some basic prototyping tools, like wires, a 330 ohm resistor, an LED, and a breadboard.
+10. Download and install BT Terminal on your smartphone. I use an Android phone. As you might guess, the BT in BT Terminal
     stands for BlueTooth.
-10. Go to [nodemcu-build.com](https://nodemcu-build.com/) and select the following modules for your firmware build:
-    Bloom filter, crypto, CoAp, file, GPIO, I2C, net, node, timer, UART, WiFi, MQTT, SPI, SJSON, websocket
+11. Go to [nodemcu-build.com](https://nodemcu-build.com/) and select the following modules for your firmware build:
+    Bloom filter, crypto, CoAp, DHT, file, GPIO, I2C, net, node, timer, UART, WiFi, MQTT, SPI, SJSON, websocket
     (Disclaimer: I don't use all these modules, but I plan to. If you are doing something different with this project, you
     can choose which modules you need; the build site has tooltips for each module explaining what it is, and each module is
     documented well in the resouce listed above.)
@@ -65,7 +66,7 @@ The NodeMCU connects via micro-USB. Open esplorer, and expand it if you need to.
 
 ### Step 3: Configure the credentials file
 
-Your computer should be on a wifi network (as opposed to wired, which I often do). In the credentials file, the SSID and PASSWORD should be the same as what your computer is connecting with. It's probably a good idea to change the CLIENTID to something custom, since the value of node.chipid() doesn't change between physical chips (at least not the 3 working ones I bought).
+Your computer should be on a wifi network (as opposed to wired, which I often do). In the credentials file, the SSID and PASSWORD should be the same as what your computer is connecting with. It's probably a good idea to change the CLIENTID to something custom, since the value of node.chipid() may not be different between physical chips (at least not the 3 working ones I bought).
 
 The IPADR will be a static IP that you request for the NodeMCU module. On Linux, type ifconfig | grep "inet 192.168.". You may see a few IPs starting with 192.168, and these are IPs you should **not** set as the value for IPADR. For me, 192.168.1.5 is usually always available (i.e., not shown in the list and not assigned to anything else the router is connected to).
 
@@ -91,6 +92,7 @@ You should get a success message for the communication to the chip, but a failur
 - disconnect_mqtt.lua
 - disconnect_webserver.lua
 - nodemcu_ble_led.lua
+- nodemcu_dht_read.lua
 - nodemcu_mqtt_publish.lua
 - parse_mqtt_err_reason.lua
 - switch.lua
@@ -113,6 +115,18 @@ If you want explicit instructions, here's how my breadboard is wired:
 - Place the LED on the board at holes f11 and f12, with the negative (shorter) pin in f11. 
 - Place a 330 ohm resistor with each end in g11 and g10.
 - Place the HC-05 Bluetooth at holes f1 through f6, with the KEY or EN pin at f1 and the STATE pin at f6. This places the VCC pin (Voltage Common Collector, aka the power input) at f2, GND (ground) at f3, TXD (transmit) at f4, and RXD (receive) at f5.
+- Place the DHT-11 Humidity and Temperature sensor to the following holes. Your module may differ, including having 4 pins instead of 3 -- rearrange pins/wires to accomodate your setup if you can plug directly in. On my Osepp DHT-11 sensor, there are 3 pins instead of 4. Since I can plug this directly into the breadboard next to the Bluetooth, the pins will be ordered positive, negative and signal, with negative at f9, positive at f8, and signal at f7. The holes to connect the DHT-11 are:
+
+	- DHT-11 GND (-) to f7
+	- DHT-11 Signal (S) to f8
+	- DHT-11 VCC (+) to f9
+	
+	On my 3-pin Osepp DHT-11, it goes:
+	
+	- DHT-11 GND (-) to f9
+	- DHT-11 VCC (+) to f8
+	- DHT-11 Signal (S) to f7
+	
 - Attach wires between the following pairs of holes:
 
 	- HC-05 Bluetooth
@@ -120,6 +134,11 @@ If you want explicit instructions, here's how my breadboard is wired:
 		- -2 to g3 (ground to ground)
 		- g4 to j27 (Bluetooth TXD to NodeMCU RXD)
 		- g5 to j28 (Bluetooth RXD to NodeMCU TXD)
+		
+	- DHT-11 Humidity and Temperature sensor
+		- g8 to j25 (DHT-11 Signal (S) to NodeMCU D7 pin)
+		OR
+		- g7 to j25 (3-pin DHT-11 Signal (S) to NodeMCU D7)
 	
  	- LED
 		- h10 to -8 (330 ohm resistor to ground)
@@ -133,14 +152,13 @@ If you want explicit instructions, here's how my breadboard is wired:
 
 ### Step 6: Setup topics in CloudMQTT
 
-Open the nodemcu_mqtt_publish.lua file in esplorer. In the publish function you can see where MQTT will be sending some fake arbitrary sensor data to the CloudMQTT server. As of this writing, CloudMQTT has enforced a rule where you must specify the ACL rules and topics you'll be publishing and subscribing to. The free tier also has a limit of 5 rules, and we'll use 4 of them.
+Open the nodemcu_mqtt_publish.lua file in esplorer. In the publish function you can see where MQTT will be sending sensor data from the DHT-11 Humidity and Temperature sensor to the CloudMQTT server. As of this writing, CloudMQTT has enforced a rule where you must specify the ACL rules and topics you'll be publishing and subscribing to. The free tier also has a limit of 5 rules, and we'll use 3 of them.
 
 Go back to your CloudMQTT account and visit the Users & ACL tab. There are 2 categories of ACL rules, Pattern and Topic. Both define the topic that you can publish/subscribe to. The difference is simply that Topic restricts access to the topic to a specific user. For example, for the same topic pattern, you may want User A to have read/write, while User B only has read. We don't care about that now, so Pattern is fine. The patterns I defined in my account are reflected in the nodemcu_mqtt_publish.lua publish function, so if you make your own patterns, you'll need to update your publish function to match it. These patterns are:
 
-- pattern	/sensors/ESP8266-1093336/temperature	true/true	
-- pattern	/sensors/ESP8266-1093336/pressure	true/true	
-- pattern	/decibels/ESP8266-1093336/pressure	true/true	
-- pattern	/sensors/ESP8266-1093336/errors	true/true
+- pattern	/sensors/ESP8266-1093336/temperature	true/true		
+- pattern	/humidity/ESP8266-1093336/humidity	true/true	
+- pattern	/sensors/ESP8266-1093336/errors		true/true
 
 
 Now go to the Websocket UI tab. Send yourself a message to one of the topics to verify things are working ok with the vendor.
@@ -159,7 +177,7 @@ Reconnect the NodeMCU to the computer, but do not power the Bluetooth (unplug th
 	- You should now see HC-05 in the list of devices. Click on it to connect and be taken back to the main screen. 
 	- Now type the number 1 on the line and hit Send, while watching the Websocket UI tab of your CloudMQTT account.
 		- 2 received messages should come in, for decibels and sensors topics. The LED on the breadboard should be lit up. You should be impressed.
-		- Also, the BT Terminal app should receive several lines of text including the temperature and pressure values the NodeMCU faked, and the state of the LED (on or off).
+		- Also, the BT Terminal app should receive several lines of text including the temperature and humidity values the NodeMCU received from the DHT-11, and the state of the LED (on or off).
 	- Type the number 2 on the line and hit Send.
 		- This closes the connection on the NodeMCU MQTT client, and turns the LED off.
 
