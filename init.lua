@@ -2,12 +2,14 @@
 collectgarbage()
 dofile("credentials.lua")
 
+
 function startup()
     if nil == file.open("init.lua") then 
         print("init.lua deleted")
     else
         print("Running")
         file.close("init.lua")
+        --dofile("nodemcu_dht_read.lua")
         --dofile("nodemcu_ble_led.lua")
         --dofile("nodemcu_mqtt_publish.lua")
         --dofile("wifi_servers.lua")

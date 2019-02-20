@@ -6,22 +6,25 @@ print("MQTT Broker coming online...")
 
 -- simulate telemetry data
 -- TODO: real data logic in different file, replace this with dofile
-temperature = math.random(100)
-pressure = math.random(100)
 
-print("Temperature: "..temperature)
-print ("Pressure: "..pressure)
+--temperature = math.random(100)
+-- pressure = math.random(100)
+
+dofile("nodemcu_dht_read.lua")
+
+print("Temperature: "..temp)
+print ("Humidity: "..humi)
 sensor_topic = "sensors"
 
 sensor_data = {
-    ["temperature"] = temperature,
-    ["pressure"] = pressure,
+    ["temperature"] = temp,
+    ["humidity"] = humi,
     nil
 }
 
 sensor_topics = {
     ["temperature"] = sensor_topic,
-    ["pressure"] = "decibels",
+    ["humidity"] = "humidity",
     nil
 }
 
