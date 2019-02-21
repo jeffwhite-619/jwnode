@@ -178,7 +178,7 @@ Reconnect the NodeMCU to the computer, but do not power the Bluetooth (unplug th
 - Open BT Terminal on your phone and hit Connect.
 	- You should now see HC-05 in the list of devices. Click on it to connect and be taken back to the main screen. 
 	- Now type the number 1 on the line and hit Send, while watching the Websocket UI tab of your CloudMQTT account.
-		- 2 received messages should come in, for decibels and sensors topics. The LED on the breadboard should be lit up. You should be impressed.
+		- 2 received messages should come in, for humidity and sensors topics. The LED on the breadboard should be lit up. You should be impressed.
 		- Also, the BT Terminal app should receive several lines of text including the temperature and humidity values the NodeMCU received from the DHT-11, and the state of the LED (on or off).
 	- Type the number 2 on the line and hit Send.
 		- This closes the connection on the NodeMCU MQTT client, and turns the LED off.
