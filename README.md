@@ -1,7 +1,7 @@
 # jwnode
-NodeMCU, Lua, HC-05 Bluetooth LE, DHT-11 Humidity and Temperature sensor
+NodeMCU, Lua, HC-05 Bluetooth LE, DHT11 Humidity and Temperature sensor
 
-Exploring NodeMCU (ESP8266, ESP-12E), Lua, HC-05 Bluetooth transceiver module, and DHT-11 Humidity and Temperature sensor
+Exploring NodeMCU (ESP8266, ESP-12E), Lua, HC-05 Bluetooth transceiver module, and DHT11 Humidity and Temperature sensor
 
 What I'm doing here is sending a command from my phone, via Bluetooth, to a WiFi module, telling it to read temperature and humidity data and publish that data to a topic brokered by a CloudMQTT account.
 
@@ -14,7 +14,7 @@ You will need to do the following:
     figure out what that is if you choose a different OEM. Amica is "officially supported" by the way. No matter what the
     OEM, the boards are typically around $5-10 USD.
 2.  Acquire an HC-05 Bluetooth module. These are typically around $4 USD.
-3.  Acquire a DHT-11 Humidity and Temperature sensor, around $3-7 USD. Mine is made by Osepp, with 3 pins instead of 4 (no NULL pin).
+3.  Acquire a DHT11 Humidity and Temperature sensor, around $3-7 USD. Mine is made by Osepp, called a HUMI-01, with 3 pins instead of 4 (no NULL pin).
 4.  Setup a free account at [CloudMQTT](https://www.cloudmqtt.com/). The free tier is called Cute Cat.
 5.  Download and install the NodeMCU Firmware Flasher. The github project is called nodemcu-flasher and you can get it [here](https://github.com/nodemcu/nodemcu-flasher). It's designed for Windows and so I used it on Windows. I can't really testify whether it works well on Linux, as I was not setting the jumper correctly at the time. More on that later...
 6.  Download and install [esplorer](https://github.com/4refr0nt/ESPlorer)
@@ -46,7 +46,7 @@ There are a number of other tools I could have used, but didn't. They are:
 - Arduino (for writing code, I still use it for powering the HC-05)
 - MicroPython
 - any of the other ESP8266 boards (ESP-1, etc)
-- MQTTfx, or node-red, or a number of other programs capable of brokering mqtt transmissions
+- MQTTfx, or node-red, or a number of other programs capable of brokering MQTT transmissions
 
 I also recommend getting more than one NodeMCU and HC-05 module, as the likelihood of getting 2 bad chips is pretty slim. Out of 4 NodeMCUs I purchased, one was toast.
 
@@ -117,17 +117,17 @@ If you want explicit instructions, here's how my breadboard is wired:
 - Place the LED on the board at holes f11 and f12, with the negative (shorter) pin in f11. 
 - Place a 330 ohm resistor with each end in g11 and g10.
 - Place the HC-05 Bluetooth at holes f1 through f6, with the KEY or EN pin at f1 and the STATE pin at f6. This places the VCC pin (Voltage Common Collector, aka the power input) at f2, GND (ground) at f3, TXD (transmit) at f4, and RXD (receive) at f5.
-- Place the DHT-11 Humidity and Temperature sensor to the following holes. Your module may differ, including having 4 pins instead of 3 -- rearrange pins/wires to accomodate your setup if you can plug directly in. On my Osepp DHT-11 sensor, there are 3 pins instead of 4. Since I can plug this directly into the breadboard next to the Bluetooth, the pins will be ordered positive, negative and signal, with negative at f9, positive at f8, and signal at f7. The holes to connect the DHT-11 are:
+- Place the DHT11 Humidity and Temperature sensor to the following holes. Your module may differ, including having 4 pins instead of 3 -- rearrange pins/wires to accomodate your setup if you can plug directly in. On my Osepp HUMI-01 (another sensor based on DHT11), there are 3 pins instead of 4. Since I can plug this directly into the breadboard next to the Bluetooth, the pins will be ordered positive, negative and signal, with negative at f9, positive at f8, and signal at f7. The holes to connect the DHT11 are:
 
-	- DHT-11 GND (-) to f7
-	- DHT-11 Signal (S) to f8
-	- DHT-11 VCC (+) to f9
+	- DHT11 GND (-) to f7
+	- DHT11 Signal (S) to f8
+	- DHT11 VCC (+) to f9
 	
-	On my 3-pin Osepp DHT-11, it goes:
+	On my 3-pin Osepp board, it goes:
 	
-	- DHT-11 GND (-) to f9
-	- DHT-11 VCC (+) to f8
-	- DHT-11 Signal (S) to f7
+	- HUMI-01 GND (-) to f9
+	- HUMI-01 VCC (+) to f8
+	- HUMI-01 Signal (S) to f7
 	
 - Attach wires between the following pairs of holes:
 
@@ -137,10 +137,10 @@ If you want explicit instructions, here's how my breadboard is wired:
 		- g4 to j27 (Bluetooth TXD to NodeMCU RXD)
 		- g5 to j28 (Bluetooth RXD to NodeMCU TXD)
 		
-	- DHT-11 Humidity and Temperature sensor
-		- g8 to j25 (DHT-11 Signal (S) to NodeMCU D7 pin)
-		OR
-		- g7 to j25 (3-pin DHT-11 Signal (S) to NodeMCU D7)
+	- DHT11 Humidity and Temperature sensor
+		- g8 to j25 (DHT11 Signal (S) to NodeMCU D7 pin)
+		OR Osepp Humi-01
+		- g7 to j25 (3-pin DHT11 Signal (S) to NodeMCU D7)
 	
  	- LED
 		- h10 to -8 (330 ohm resistor to ground)
@@ -154,7 +154,7 @@ If you want explicit instructions, here's how my breadboard is wired:
 
 ### Step 6: Setup topics in CloudMQTT
 
-Open the nodemcu_mqtt_publish.lua file in esplorer. In the publish function you can see where MQTT will be sending sensor data from the DHT-11 Humidity and Temperature sensor to the CloudMQTT server. As of this writing, CloudMQTT has enforced a rule where you must specify the ACL rules and topics you'll be publishing and subscribing to. The free tier also has a limit of 5 rules, and we'll use 3 of them.
+Open the nodemcu_mqtt_publish.lua file in esplorer. In the publish function you can see where MQTT will be sending sensor data from the DHT11 Humidity and Temperature sensor to the CloudMQTT server. As of this writing, CloudMQTT has enforced a rule where you must specify the ACL rules and topics you'll be publishing and subscribing to. The free tier also has a limit of 5 rules, and we'll use 3 of them.
 
 Go back to your CloudMQTT account and visit the Users & ACL tab. There are 2 categories of ACL rules, Pattern and Topic. Both define the topic that you can publish/subscribe to. The difference is simply that Topic restricts access to the topic to a specific user. For example, for the same topic pattern, you may want User A to have read/write, while User B only has read. We don't care about that now, so Pattern is fine. The patterns I defined in my account are reflected in the nodemcu_mqtt_publish.lua publish function, so if you make your own patterns, you'll need to update your publish function to match it. These patterns are:
 
@@ -179,7 +179,7 @@ Reconnect the NodeMCU to the computer, but do not power the Bluetooth (unplug th
 	- You should now see HC-05 in the list of devices. Click on it to connect and be taken back to the main screen. 
 	- Now type the number 1 on the line and hit Send, while watching the Websocket UI tab of your CloudMQTT account.
 		- 2 received messages should come in, for humidity and sensors topics. The LED on the breadboard should be lit up. You should be impressed.
-		- Also, the BT Terminal app should receive several lines of text including the temperature and humidity values the NodeMCU received from the DHT-11, and the state of the LED (on or off).
+		- Also, the BT Terminal app should receive several lines of text including the temperature and humidity values the NodeMCU received from the DHT11, and the state of the LED (on or off).
 	- Type the number 2 on the line and hit Send.
 		- This closes the connection on the NodeMCU MQTT client, and turns the LED off.
 
