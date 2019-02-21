@@ -3,6 +3,8 @@ NodeMCU, Lua, HC-05 Bluetooth LE, DHT-11 Humidity and Temperature sensor
 
 Exploring NodeMCU (ESP8266, ESP-12E), Lua, HC-05 Bluetooth transceiver module, and DHT-11 Humidity and Temperature sensor
 
+What I'm doing here is sending a command from my phone, via Bluetooth, to a WiFi module, telling it to read temperature and humidity data and publish that data to a topic brokered by a CloudMQTT account.
+
 I did most of the work on Linux Ubuntu 18.04. The flash program is designed for Windows and did not work correctly with WINE.
 
 ## Getting Started
